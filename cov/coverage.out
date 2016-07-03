@@ -1,0 +1,7 @@
+mode: set
+github.com/suzuken/misc/cov/words.go:7.29,9.9 2 1
+github.com/suzuken/misc/cov/words.go:10.2,11.21 1 0
+github.com/suzuken/misc/cov/words.go:12.2,13.20 1 1
+github.com/suzuken/misc/cov/words.go:14.2,15.23 1 0
+github.com/suzuken/misc/cov/words.go:16.2,17.22 1 1
+github.com/suzuken/misc/cov/words.go:18.2,19.26 1 0
