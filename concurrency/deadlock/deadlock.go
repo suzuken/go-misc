@@ -4,22 +4,33 @@ package main
 func main() {
 	f()
 
-	ch := make(chan int)
-	sq(ch)
+	closed()
+
+	gen(2, 3, 4)
 }
 
+// fatal error: all goroutines are asleep - deadlock!
 func f() {
 	ch := make(chan struct{})
 	<-ch
 }
 
+// panic: send on closed channel
+func closed() {
+	ch := make(chan struct{})
+	close(ch)
+	ch <- struct{}{}
+}
+
 // forget close channel
-func sq(nums <-chan int) <-chan int {
+func gen(nums ...int) <-chan int {
 	out := make(chan int)
 	go func() {
-		for n := range nums {
-			out <- n * n
+		for _, n := range nums {
+			out <- n
 		}
+		// to be close channel here.
+		// close(out)
 	}()
 	return out
 }
