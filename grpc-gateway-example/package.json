@@ -1,0 +1,15 @@
+{
+  "name": "grpc-gateway-example",
+  "version": "1.0.0",
+  "description": "Just write `my_service.proto` and `make` to generate",
+  "main": "index.js",
+  "dependencies": {
+    "swagger-js-codegen": "^1.12.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}
