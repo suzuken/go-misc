@@ -60,4 +60,4 @@ clean:
 	-rm $(service).pb.gw.go
 	-rm $(service)_pb.rb
 	-rm $(service).swagger.json
-	-rm -rf models client restapi js ts-fetch
+	-rm -rf models client restapi js ts-fetch react
