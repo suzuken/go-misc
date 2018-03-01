@@ -26,3 +26,11 @@ gen-swagger: my_service.proto
 		-I$(GOPATH)/src/github.com/grpc-ecosystem/grpc-gateway/third_party/googleapis \
 		--swagger_out=logtostderr=true:. \
 		$<
+
+# generates restapi
+gen-swagger-server: my_service.swagger.json
+	swagger generate server -f $<
+
+#generates models and client
+gen-swagger-client: my_service.swagger.json
+	swagger generate client -f $<
