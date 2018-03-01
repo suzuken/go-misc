@@ -47,6 +47,10 @@ gen-swagger-js-client: $(service).swagger.json
 	mkdir -p js
 	swagger-codegen generate -i $< -l javascript -o js
 
+gen-swagger-ts-fetch-client: $(service).swagger.json
+	mkdir -p ts-fetch
+	swagger-codegen generate -i $< -l typescript-fetch -o ts-fetch
+
 clean:
 	-rm $(service).pb.go
 	-rm $(service).pb.gw.go
