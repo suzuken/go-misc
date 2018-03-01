@@ -36,12 +36,16 @@ $(service).swagger.json: $(protofile)
 		$<
 
 # generates restapi
-gen-swagger-server: my_service.swagger.json
+gen-swagger-server: $(service).swagger.json
 	swagger generate server -f $<
 
-#generates models and client
-gen-swagger-client: my_service.swagger.json
+# generates models and client
+gen-swagger-client: $(service).swagger.json
 	swagger generate client -f $<
+
+gen-swagger-js-client: $(service).swagger.json
+	mkdir -p js
+	swagger-codegen generate -i $< -l javascript -o js
 
 clean:
 	-rm $(service).pb.go
