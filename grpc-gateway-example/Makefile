@@ -1,26 +1,34 @@
-gen: my_service.proto
+service=my_service
+protofile=$(service).proto
+
+all: gen gen-ruby gen-reverse-proxy gen-swagger gen-swagger-server gen-swagger-client
+
+gen: $(service).pb.go
+$(service).pb.go: $(protofile)
 	protoc -I/usr/local/include -I. \
 		-I$(GOPATH)/src \
 		-I$(GOPATH)/src/github.com/grpc-ecosystem/grpc-gateway/third_party/googleapis \
 		--go_out=plugins=grpc:. \
 		$<
 
-gen-ruby: my_service.proto
+gen-ruby: $(service)_pb.rb
+$(service)_pb.rb: $(protofile)
 	protoc -I/usr/local/include -I. \
 		-I$(GOPATH)/src \
 		-I$(GOPATH)/src/github.com/grpc-ecosystem/grpc-gateway/third_party/googleapis \
 		--ruby_out=. \
 		$<
 
-
-gen-reverse-proxy: my_service.proto
+gen-reverse-proxy: $(service).pb.gw.go
+$(service).pb.gw.go: $(protofile)
 	protoc -I/usr/local/include -I. \
 		-I$(GOPATH)/src \
 		-I$(GOPATH)/src/github.com/grpc-ecosystem/grpc-gateway/third_party/googleapis \
 		--grpc-gateway_out=logtostderr=true:. \
 		$<
 
-gen-swagger: my_service.proto
+gen-swagger: $(service).swagger.json
+$(service).swagger.json: $(protofile)
 	protoc -I/usr/local/include -I. \
 		-I$(GOPATH)/src \
 		-I$(GOPATH)/src/github.com/grpc-ecosystem/grpc-gateway/third_party/googleapis \
@@ -34,3 +42,10 @@ gen-swagger-server: my_service.swagger.json
 #generates models and client
 gen-swagger-client: my_service.swagger.json
 	swagger generate client -f $<
+
+clean:
+	-rm $(service).pb.go
+	-rm $(service).pb.gw.go
+	-rm $(service)_pb.rb
+	-rm $(service).swagger.json
+	-rm -rf models client restapi
