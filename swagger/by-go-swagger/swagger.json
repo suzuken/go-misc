@@ -1,0 +1,187 @@
+{
+  "consumes": [
+    "application/json"
+  ],
+  "schemes": [
+    "http",
+    "https"
+  ],
+  "swagger": "2.0",
+  "info": {
+    "title": "for ...",
+    "version": "2.0"
+  },
+  "paths": {
+    "/pets": {
+      "get": {
+        "description": "This will show all available pets by default.\nYou can get the pets that are out of stock",
+        "consumes": [
+          "application/json",
+          "application/x-protobuf"
+        ],
+        "produces": [
+          "application/json",
+          "application/x-protobuf"
+        ],
+        "schemes": [
+          "http",
+          "https",
+          "ws",
+          "wss"
+        ],
+        "tags": [
+          "pets",
+          "users"
+        ],
+        "summary": "Lists pets filtered by some parameters.",
+        "operationId": "listPets",
+        "security": [
+          {
+            "api_key": []
+          },
+          {
+            "oauth": [
+              "read",
+              "write"
+            ]
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/someResponse"
+          },
+          "201": {
+            "description": "ImportUnexportedField",
+            "schema": {
+              "$ref": "#/definitions/ImportUnexportedField"
+            }
+          },
+          "422": {
+            "$ref": "#/responses/validationError"
+          },
+          "default": {
+            "description": "User",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "ExportedType": {
+      "description": "see: https://github.com/go-swagger/go-swagger/issues/796",
+      "type": "object",
+      "title": "ExportedType should not generated in swagger.json but not yet.",
+      "properties": {
+        "NothingToShow": {
+          "type": "string"
+        }
+      },
+      "x-go-package": "github.com/suzuken/go-misc/swagger/by-go-swagger"
+    },
+    "ImportUnexportedField": {
+      "type": "object",
+      "title": "ImportUnexportedField has field of unexported type.",
+      "properties": {
+        "ExportedString": {
+          "type": "string"
+        },
+        "F": {
+          "$ref": "#/definitions/unexportedType"
+        }
+      },
+      "x-go-package": "github.com/suzuken/go-misc/swagger/by-go-swagger"
+    },
+    "User": {
+      "description": "A user is the security principal for this application.\nIt's also used as one of main axes for reporting.\n\nA user can have friends with whom they can share what they like.",
+      "type": "object",
+      "title": "User represents the user for this application",
+      "required": [
+        "id",
+        "name",
+        "login"
+      ],
+      "properties": {
+        "friends": {
+          "description": "the friends for this user",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/User"
+          },
+          "x-go-name": "Friends"
+        },
+        "id": {
+          "description": "the id for this user",
+          "type": "integer",
+          "format": "int64",
+          "minimum": 1,
+          "x-go-name": "ID"
+        },
+        "login": {
+          "description": "the email address for this user",
+          "type": "string",
+          "format": "email",
+          "x-go-name": "Email"
+        },
+        "name": {
+          "description": "the name for this user",
+          "type": "string",
+          "minLength": 3,
+          "x-go-name": "Name"
+        }
+      },
+      "x-go-package": "github.com/suzuken/go-misc/swagger/by-go-swagger"
+    },
+    "ValidationError": {
+      "type": "object",
+      "title": "A ValidationError is an error that is used when the required input fails validation.",
+      "properties": {
+        "Body": {
+          "description": "The error message\nin: body",
+          "type": "object",
+          "required": [
+            "Message"
+          ],
+          "properties": {
+            "FieldName": {
+              "description": "An optional field name to which this validation applies",
+              "type": "string"
+            },
+            "Message": {
+              "description": "The validation message",
+              "type": "string"
+            }
+          }
+        }
+      },
+      "x-go-package": "github.com/suzuken/go-misc/swagger/by-go-swagger"
+    },
+    "unexportedType": {
+      "type": "object",
+      "x-go-package": "github.com/suzuken/go-misc/swagger/by-go-swagger"
+    }
+  },
+  "responses": {
+    "validationError": {
+      "description": "A ValidationError is an error that is used when the required input fails validation.",
+      "schema": {
+        "type": "object",
+        "required": [
+          "Message"
+        ],
+        "properties": {
+          "FieldName": {
+            "description": "An optional field name to which this validation applies",
+            "type": "string"
+          },
+          "Message": {
+            "description": "The validation message",
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}
